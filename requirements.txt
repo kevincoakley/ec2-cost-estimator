@@ -1,1 +1,2 @@
-PyYAML
+boto3>=1.4.0
+PyYAML>=3.11
