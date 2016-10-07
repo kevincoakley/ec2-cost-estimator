@@ -1,7 +1,10 @@
 #!/usr/bin/env python
 
 import re
+import requests
 import yaml
+
+INSTANCES_ON_DEMAND_LINUX_URL = "http://a0.awsstatic.com/pricing/1/ec2/linux-od.min.js"
 
 
 class OnDemand:
@@ -9,8 +12,9 @@ class OnDemand:
     def __init__(self):
         pass
 
-    @staticmethod
-    def get_current_cost(js, region, instance_size):
+    def get_current_cost(self, region, instance_size):
+
+        js = self.get_js_file()
 
         # strip initial comment (with newline)
         js = re.sub(re.compile(r'/\*.*\*/\n', re.DOTALL), '', js)
@@ -39,3 +43,8 @@ class OnDemand:
                             return sizes["valueColumns"][0]["prices"]["USD"]
 
         return None
+
+    @staticmethod
+    def get_js_file():
+        r = requests.get(INSTANCES_ON_DEMAND_LINUX_URL)
+        return r.text
