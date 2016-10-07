@@ -7,6 +7,10 @@ class FakeBoto3(object):
     def describe_spot_price_history(*args, **kwargs):
         pass
 
+    @staticmethod
+    def Instance(*args, **kwargs):
+        pass
+
 
 class FakeOnDemand(object):
 

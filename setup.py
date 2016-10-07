@@ -31,6 +31,7 @@ setup(name="ec2-cost-estimator",
       packages=[
           "ec2costestimator",
           "ec2costestimator/cost",
+          "ec2costestimator/ec2",
       ],
       platforms="Posix; MacOS X",
       classifiers=[
