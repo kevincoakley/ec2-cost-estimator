@@ -3,14 +3,17 @@
 import re
 import requests
 import yaml
+from ec2costestimator.ec2.instance_information import InstanceInformation
 
 INSTANCES_ON_DEMAND_LINUX_URL = "http://a0.awsstatic.com/pricing/1/ec2/linux-od.min.js"
 
 
 class OnDemand:
 
-    def __init__(self):
-        pass
+    def __init__(self, aws_access_key_id, aws_secret_access_key, region):
+        self.aws_access_key_id = aws_access_key_id
+        self.aws_secret_access_key = aws_secret_access_key
+        self.region = region
 
     def get_current_cost(self, region, instance_size):
 
@@ -48,3 +51,14 @@ class OnDemand:
     def get_js_file():
         r = requests.get(INSTANCES_ON_DEMAND_LINUX_URL)
         return r.text
+
+    def get_instance_cost(self, instance_id):
+
+        instance_information = InstanceInformation(self.aws_access_key_id,
+                                                   self.aws_secret_access_key,
+                                                   self.region)
+
+        hours = instance_information.get_instance_running_hours(instance_id)
+        instance_type = instance_information.get_instance_type(instance_id)
+
+        return float(self.get_current_cost(self.region, instance_type)) * hours
