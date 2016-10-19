@@ -54,3 +54,64 @@ class OnDemandTestCase(unittest.TestCase):
 
             output = on_demand.get_instance_cost("i-12345678")
             self.assertEqual(output, 0.201)
+
+    @patch('boto3.resource', fakes.FakeBoto3)
+    @patch.object(fakes.FakeBoto3, 'Instance')
+    def test_on_demand_get_instances_cost(self, mock_instance):
+
+        instance = MagicMock()
+        instance.launch_time = "2016-01-01 01:00:00+00:00"
+        instance.instance_type = "m3.medium"
+        instance.placement = {"AvailabilityZone": "us-east-1b"}
+
+        mock_instance.return_value = instance
+
+        on_demand = OnDemand("ABC", "123", "us-east-1")
+
+        strptime = datetime.datetime.strptime
+
+        # Test 1 instance with 10 minute running time
+        dt = datetime.datetime(2016, 1, 1, 1, 10, 0)
+        with patch('datetime.datetime') as datetime_mock:
+            datetime_mock.utcnow.return_value = dt
+            datetime_mock.strptime = strptime
+
+            output = on_demand.get_instances_cost(["i-12345678"])
+            self.assertEqual(output, 0.067)
+
+        # Test 2 instances with 10 minute running time
+        dt = datetime.datetime(2016, 1, 1, 1, 10, 0)
+        with patch('datetime.datetime') as datetime_mock:
+            datetime_mock.utcnow.return_value = dt
+            datetime_mock.strptime = strptime
+
+            output = on_demand.get_instances_cost(["i-12345678", "i-23456789"])
+            self.assertEqual(output, 0.134)
+
+        # Test 5 instances with 10 minute running time
+        dt = datetime.datetime(2016, 1, 1, 1, 10, 0)
+        with patch('datetime.datetime') as datetime_mock:
+            datetime_mock.utcnow.return_value = dt
+            datetime_mock.strptime = strptime
+
+            output = on_demand.get_instances_cost(["i-12345678", "i-23456789", "i-345678901",
+                                                   "i-456789012", "i-567890123"])
+            self.assertEqual(output, 0.335)
+
+        # Test 1 instance with 2 hour and 10 minute running time
+        dt = datetime.datetime(2016, 1, 1, 3, 10, 0)
+        with patch('datetime.datetime') as datetime_mock:
+            datetime_mock.utcnow.return_value = dt
+            datetime_mock.strptime = strptime
+
+            output = on_demand.get_instances_cost(["i-12345678"])
+            self.assertEqual(output, 0.201)
+
+        # Test 3 instances with 2 hour and 10 minute running time
+        dt = datetime.datetime(2016, 1, 1, 3, 10, 0)
+        with patch('datetime.datetime') as datetime_mock:
+            datetime_mock.utcnow.return_value = dt
+            datetime_mock.strptime = strptime
+
+            output = on_demand.get_instances_cost(["i-12345678", "i-23456789", "i-345678901"])
+            self.assertEqual(output, 0.603)

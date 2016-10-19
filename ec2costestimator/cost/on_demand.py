@@ -62,3 +62,13 @@ class OnDemand:
         instance_type = instance_information.get_instance_type(instance_id)
 
         return float(self.get_current_cost(instance_type)) * hours
+
+    def get_instances_cost(self, instance_ids):
+
+        total = 0
+
+        if type(instance_ids) is list:
+            for instance_id in instance_ids:
+                total += float(self.get_instance_cost(instance_id))
+
+        return total

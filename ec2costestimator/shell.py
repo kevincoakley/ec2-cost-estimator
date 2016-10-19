@@ -34,11 +34,37 @@ def on_demand_current():
     on_demand = OnDemand(args["aws_key"], args["aws_secret"], args["region"])
 
     print(on_demand.get_current_cost(args["instance_type"]))
+
+
+def on_demand_instances():
+
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument("-i",
+                        metavar="instances",
+                        dest="instances",
+                        required=True)
+
+    parser.add_argument("-r",
+                        metavar="region",
+                        dest="region",
+                        required=True)
+
+    parser.add_argument("-k",
+                        metavar="aws_key",
+                        dest="aws_key",
+                        required=True)
+
+    parser.add_argument("-s",
+                        metavar="aws_secret",
+                        dest="aws_secret",
+                        required=True)
+
     args = vars(parser.parse_args())
 
-    on_demand = OnDemand()
+    on_demand = OnDemand(args["aws_key"], args["aws_secret"], args["region"])
 
-    print(on_demand.get_current_cost(args["region"], args["instance_type"]))
+    print(on_demand.get_instances_cost(args["instances"].split(",")))
 
 
 def spot_current():
