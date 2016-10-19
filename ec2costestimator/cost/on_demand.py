@@ -15,7 +15,7 @@ class OnDemand:
         self.aws_secret_access_key = aws_secret_access_key
         self.region = region
 
-    def get_current_cost(self, region, instance_size):
+    def get_current_cost(self, instance_size):
 
         js = self.get_js_file()
 
@@ -32,7 +32,7 @@ class OnDemand:
         for js_region in js["config"]["regions"]:
 
             # Find the matching region
-            if js_region["region"] == region:
+            if js_region["region"] == self.region:
 
                 # Loop through all of the instances types
                 for instance_types in js_region["instanceTypes"]:
@@ -61,4 +61,4 @@ class OnDemand:
         hours = instance_information.get_instance_running_hours(instance_id)
         instance_type = instance_information.get_instance_type(instance_id)
 
-        return float(self.get_current_cost(self.region, instance_type)) * hours
+        return float(self.get_current_cost(instance_type)) * hours

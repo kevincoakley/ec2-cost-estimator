@@ -19,6 +19,21 @@ def on_demand_current():
                         dest="region",
                         required=True)
 
+    parser.add_argument("-k",
+                        metavar="aws_key",
+                        dest="aws_key",
+                        required=True)
+
+    parser.add_argument("-s",
+                        metavar="aws_secret",
+                        dest="aws_secret",
+                        required=True)
+
+    args = vars(parser.parse_args())
+
+    on_demand = OnDemand(args["aws_key"], args["aws_secret"], args["region"])
+
+    print(on_demand.get_current_cost(args["instance_type"]))
     args = vars(parser.parse_args())
 
     on_demand = OnDemand()

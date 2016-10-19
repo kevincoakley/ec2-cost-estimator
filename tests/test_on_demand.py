@@ -19,7 +19,7 @@ class OnDemandTestCase(unittest.TestCase):
 
         on_demand = OnDemand("ABC", "123", "us-east-1")
 
-        output = on_demand.get_current_cost("us-east-1", "m3.medium")
+        output = on_demand.get_current_cost("m3.medium")
         self.assertEqual(output, "0.067")
 
     @patch('boto3.resource', fakes.FakeBoto3)
