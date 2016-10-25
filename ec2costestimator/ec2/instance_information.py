@@ -42,3 +42,9 @@ class InstanceInformation:
         instance = self.ec2.Instance(instance_id)
 
         return instance.placement["AvailabilityZone"]
+
+    def get_instance_lifecycle(self, instance_id):
+
+        instance = self.ec2.Instance(instance_id)
+
+        return instance.instance_lifecycle
