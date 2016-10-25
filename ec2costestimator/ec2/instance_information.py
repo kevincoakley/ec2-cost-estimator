@@ -24,7 +24,8 @@ class InstanceInformation:
 
         instance = self.ec2.Instance(instance_id)
 
-        launch_time = datetime.datetime.strptime(str(instance.launch_time), '%Y-%m-%d %H:%M:%S+00:00')
+        launch_time = datetime.datetime.strptime(str(instance.launch_time),
+                                                 '%Y-%m-%d %H:%M:%S+00:00')
         running_seconds = int((datetime.datetime.utcnow() - launch_time).total_seconds())
 
         # Convert the running seconds into hours and round up
