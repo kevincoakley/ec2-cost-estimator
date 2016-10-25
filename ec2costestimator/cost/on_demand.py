@@ -61,7 +61,7 @@ class OnDemand:
         hours = instance_information.get_instance_running_hours(instance_id)
         instance_type = instance_information.get_instance_type(instance_id)
 
-        return float(self.get_current_cost(instance_type)) * hours
+        return round(float(self.get_current_cost(instance_type)) * hours, 4)
 
     def get_instances_cost(self, instance_ids):
 
@@ -71,4 +71,4 @@ class OnDemand:
             for instance_id in instance_ids:
                 total += float(self.get_instance_cost(instance_id))
 
-        return total
+        return round(total, 4)
