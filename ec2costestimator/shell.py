@@ -101,3 +101,34 @@ def spot_current():
     spot = Spot(args["aws_key"], args["aws_secret"], args["region"])
 
     print(spot.get_current_cost(args["availability_zone"], args["instance_type"]))
+
+
+def spot_instances():
+
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument("-i",
+                        metavar="instances",
+                        dest="instances",
+                        required=True)
+
+    parser.add_argument("-r",
+                        metavar="region",
+                        dest="region",
+                        required=True)
+
+    parser.add_argument("-k",
+                        metavar="aws_key",
+                        dest="aws_key",
+                        required=True)
+
+    parser.add_argument("-s",
+                        metavar="aws_secret",
+                        dest="aws_secret",
+                        required=True)
+
+    args = vars(parser.parse_args())
+
+    spot = Spot(args["aws_key"], args["aws_secret"], args["region"])
+
+    print(spot.get_instances_cost(args["instances"].split(",")))
