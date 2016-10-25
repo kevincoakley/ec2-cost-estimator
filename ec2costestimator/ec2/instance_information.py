@@ -14,6 +14,12 @@ class InstanceInformation:
                                   aws_secret_access_key=aws_secret_access_key,
                                   region_name=region)
 
+    def get_instance_launch_time(self, instance_id):
+
+        instance = self.ec2.Instance(instance_id)
+
+        return instance.launch_time
+
     def get_instance_running_hours(self, instance_id):
 
         instance = self.ec2.Instance(instance_id)
