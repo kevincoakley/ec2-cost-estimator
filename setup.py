@@ -24,10 +24,8 @@ setup(name="ec2-cost-estimator",
       author="Kevin Coakley",
       author_email="kcoakley@sdsc.edu",
       scripts=[
-          "bin/on_demand_current",
-          "bin/on_demand_instances",
-          "bin/spot_current",
-          "bin/spot_instances",
+          "bin/ec2_cost_current",
+          "bin/ec2_cost_instances",
       ],
       url="",
       packages=[
