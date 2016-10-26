@@ -18,7 +18,7 @@ def readme():
 
 
 setup(name="ec2-cost-estimator",
-      version="0.0.1",
+      version="1.0.0",
       description="Estimate EC2 Costs for on-demand and spot instances",
       long_description=readme(),
       author="Kevin Coakley",
